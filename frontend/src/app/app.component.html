@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="header">
+    <h1>🎯 Mini Trello</h1>
+    <p class="subtitle">Gerenciador de Tarefas</p>
+  </div>
+
+  <div class="content">
+    <!-- Formulário para adicionar nova tarefa -->
+    <div class="card add-task-card">
+      <h2>➕ Nova Tarefa</h2>
+      <form (ngSubmit)="addTask()" class="task-form">
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input
+            type="text"
+            id="title"
+            [(ngModel)]="newTask.title"
+            name="title"
+            placeholder="Ex: Implementar funcionalidade X"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Descrição *</label>
+          <textarea
+            id="description"
+            [(ngModel)]="newTask.description"
+            name="description"
+            placeholder="Descreva a tarefa em detalhes..."
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Adicionar Tarefa</button>
+      </form>
+    </div>
+
+    <!-- Lista de tarefas -->
+    <div class="tasks-section">
+      <h2>📋 Lista de Tarefas ({{ tasks.length }})</h2>
+      <div class="tasks-grid">
+        <div *ngFor="let task of tasks" class="card task-card" [class.done]="task.status === 'DONE'">
+          <div class="task-header">
+            <span class="task-id">#{{ task.id }}</span>
+            <span class="task-status" [ngClass]="getStatusClass(task.status)">
+              {{ getStatusLabel(task.status) }}
+            </span>
+          </div>
+          
+          <div *ngIf="editMode !== task.id" class="task-content">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <p class="task-description">{{ task.description }}</p>
+            <div class="task-actions">
+              <button class="btn btn-sm" (click)="startEdit(task)">
+                ✏️ Editar
+              </button>
+              <button class="btn btn-sm" [class.btn-success]="task.status === 'PENDING'" [class.btn-warning]="task.status === 'DONE'"
+                      (click)="updateStatus(task)">
+                {{ task.status === 'PENDING' ? '✓ Concluir' : '↩️ Reabrir' }}
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">
+                🗑️ Excluir
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="editMode === task.id" class="task-edit">
+            <input
+              type="text"
+              [(ngModel)]="editedTask.title"
+              class="edit-input"
+              placeholder="Título"
+            />
+            <textarea
+              [(ngModel)]="editedTask.description"
+              class="edit-input"
+              rows="2"
+              placeholder="Descrição"
+            ></textarea>
+            <div class="task-actions">
+              <button class="btn btn-sm btn-primary" (click)="saveEdit()">
+                💾 Salvar
+              </button>
+              <button class="btn btn-sm" (click)="cancelEdit()">
+                ❌ Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tasks.length === 0" class="empty-state">
+        <p>📝 Nenhuma tarefa cadastrada ainda.</p>
+        <p>Comece adicionando uma nova tarefa acima!</p>
+      </div>
+    </div>
+  </div>
+</div>
+

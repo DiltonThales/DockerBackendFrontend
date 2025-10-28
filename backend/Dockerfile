@@ -22,3 +22,7 @@ WORKDIR /app
 #Copiar o JAR que foi gerado na etapa build
 
 COPY  --from=build /app/target/*.jar app.jar
+
+EXPOSE  8080
+
+ENTRYPOINT [ "java", "-jar", "app.jar" ]

@@ -14,6 +14,24 @@ services:
     networks:
       - minitrello-network
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: minitrello-backend
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DB_USERNAME: postgres 
+      DB_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/minitrello 
+    ports:
+      - "8080:8080"
+    networks:
+      - minitrello-network
+
+
 networks:
   minitrello-network:
     driver: bridge

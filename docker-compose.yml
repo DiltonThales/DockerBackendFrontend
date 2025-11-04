@@ -31,12 +31,12 @@ services:
     networks:
       - minitrello-network
 
-  frotend:
+  frontend:
     build:
-      context: ./frotend
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: minitrello-frotend
-    restart: unless--stopped
+    container_name: minitrello-frontend
+    restart: unless-stopped
     depends_on:
       - backend
     ports:

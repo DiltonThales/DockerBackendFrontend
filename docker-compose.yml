@@ -31,6 +31,19 @@ services:
     networks:
       - minitrello-network
 
+  frotend:
+    build:
+      context: ./frotend
+      dockerfile: Dockerfile
+    container_name: minitrello-frotend
+    restart: unless--stopped
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - minitrello-network
+
 
 networks:
   minitrello-network:

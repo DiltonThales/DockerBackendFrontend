@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: minitrello-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: minitrello        
+      POSTGRES_USER: postgres          
+      POSTGRES_PASSWORD: postgres  
+    ports:
+      - "5432:5432"  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - minitrello-network
+
+networks:
+  minitrello-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

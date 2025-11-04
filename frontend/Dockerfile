@@ -5,7 +5,7 @@ FROM node:22-alpine AS build
 WORKDIR /app 
 
 
-COPY angular.json package.json tsconfig.app.json ./
+COPY angular.json package.json tsconfig.app.json tsconfig.json ./
 
 COPY src ./src  
 
@@ -28,4 +28,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
 # Inicia o serviço do nginx
-ENTRYPOINT [ "nginx", "-g", "daemon off" ]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
